@@ -3,6 +3,8 @@ Basic double pendulum simulation using the Runge-Kutta method.
 
 The simulation is rendered with SDL2.
 
+![screenshot](screenshot.png)
+
 ## Build and Run
 Navigate to the project directory and run the following commands:
 
