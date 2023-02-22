@@ -12,8 +12,8 @@ const int SCREEN_HEIGHT = 480;
 const double FPS = 120;
 const double FRAME_DELAY = 1000 / FPS;
 
-const int x_offset = SCREEN_WIDTH / 2;
-const int y_offset = 100;
+const int X_OFFSET = SCREEN_WIDTH / 2;
+const int Y_OFFSET = 100;
 
 // Set up simulation parameters
 double dt = 1 / double(FPS) * 10;
@@ -21,11 +21,6 @@ double GRAVITY = 9.8;
 double FRICTION = 0.01;
 
 int main() {
-    std::cout << "dt: " << dt << std::endl;
-    std::cout << "Frame delay: " << FRAME_DELAY << std::endl;
-    std::cout << "FPS: " << FPS << std::endl;
- 
-
     // Set up the penduli
     double m1 = 15;
     double l1 = 200;
@@ -41,8 +36,12 @@ int main() {
 
     PendulumPhysics::DoublePendulum dp(p1, p2, GRAVITY, FRICTION);
 
-    SDL_Color color1 = { 255, 0, 0, 255 };
+    // Define Rendering
+    SDL_Color color1 = { 0, 0, 255, 255 };
     SDL_Color color2 = { 0, 255, 0, 255 };
+
+    Rendering::Trace trace1(200, color1);
+    Rendering::Trace trace2(200, color2);
 
     // Setup SDL
     SDL_Init(SDL_INIT_VIDEO);
@@ -94,9 +93,15 @@ int main() {
         dp.update(dt);
 
         SDL_SetRenderDrawColor(renderer, 0, 255, 0, 255);
-        Rendering::renderPendulum(renderer, dp.p1, x_offset, y_offset, color1);
-        Rendering::renderPendulum(renderer, dp.p2, x_offset + std::get<0>(dp.p1.getCoordinates()), 
-            y_offset + std::get<1>(dp.p1.getCoordinates()), color2);
+        Rendering::renderPendulum(renderer, dp.p1, X_OFFSET, Y_OFFSET, color1);
+        Rendering::renderPendulum(renderer, dp.p2, X_OFFSET + std::get<0>(dp.p1.getCoordinates()), 
+            Y_OFFSET + std::get<1>(dp.p1.getCoordinates()), color2);
+        
+        trace1.addCoordinate(dp.getP1Coordinates(), X_OFFSET, Y_OFFSET);
+        trace2.addCoordinate(dp.getP2Coordinates(), X_OFFSET, Y_OFFSET);
+
+        trace1.render(renderer);
+        trace2.render(renderer);
 
         SDL_RenderPresent(renderer);
         

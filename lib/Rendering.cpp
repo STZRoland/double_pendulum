@@ -61,4 +61,34 @@ namespace Rendering
 
         return status;
     }
+
+
+    Trace::Trace(int n_frames, SDL_Color color)
+    {
+        this->n_frames = n_frames;
+        this->color = color;
+    }
+
+    void Trace::addCoordinate(std::tuple<double, double> coordinate, int x_offset, int y_offset)
+    {
+        coordinate = std::make_tuple(std::get<0>(coordinate) + x_offset, std::get<1>(coordinate) + y_offset);
+        coordinates.push_front(coordinate);
+        if (coordinates.size() > n_frames)
+        {
+            coordinates.pop_back();
+        }
+    }
+
+    void Trace::render(SDL_Renderer* renderer)
+    {
+        SDL_SetRenderDrawBlendMode(renderer, SDL_BLENDMODE_BLEND);
+
+        for (int i = 0; i < coordinates.size(); i++)
+        {
+            auto[x, y] = coordinates[i];
+            SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a - (color.a / n_frames) * i);
+            // SDL_SetRenderDrawColor(renderer, color.r, color.g, color.b, color.a);
+            SDL_RenderDrawPoint(renderer, x, y);
+        }
+    }
 }
