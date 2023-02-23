@@ -3,8 +3,6 @@
 #include "lib/Rendering.h"
 
 #include "SDL.h"
-#include <boost/array.hpp>
-#include <boost/numeric/odeint.hpp>
 
 
 const int SCREEN_WIDTH = 640;

@@ -7,7 +7,6 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 # Find the libraries
 find_package(SDL2 REQUIRED)
-find_package(Boost REQUIRED)
 
 # Add the SDL2 include directory to the include path
 include_directories(${SDL2_INCLUDE_DIRS})
@@ -17,4 +16,4 @@ add_subdirectory(lib)
 
 # Set up the build
 add_executable(MySDL2App main.cpp)
-target_link_libraries(MySDL2App ${SDL2_LIBRARIES} Boost::boost pendulum_lib)
+target_link_libraries(MySDL2App ${SDL2_LIBRARIES} pendulum_lib)
